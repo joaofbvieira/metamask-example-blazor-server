@@ -1,0 +1,81 @@
+﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <div>
+      <a class="navbar-brand mt-2 mt-lg-0" href="#">
+        <img
+          src="images/logo.png"
+          height="60"
+          alt="Logo"
+          loading="lazy"
+        />
+      </a>
+    </div>
+
+    @if (FinishedRegister)
+    {
+        <div class="d-flex align-items-center">
+      
+          <div class="dropdown">
+              <img
+                src="images/user.png"
+                class="rounded-circle dropdown-toggle btn btn-link"
+                height="60"
+                alt="Profile pic"
+                loading="lazy"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                id="navbarDropdownMenuAvatar"
+              />
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
+              <li>
+                <a class="dropdown-item">@User.Name</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" @onclick="OnRemoveUserDataEvent">Remove my data</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#" @onclick="OnLogoutEvent">Logout</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+    }
+  </div>
+</nav>
+
+@code {
+    [Parameter]
+    public Models.UserData User { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnLogoutEvent { get; set; }
+
+    [Parameter]
+    public EventCallback OnRemoveUserDataEvent { get; set; }
+
+    public bool FinishedRegister
+    {
+        get
+        {
+            if (User == null || User == default!)
+                return false;
+
+            return !string.IsNullOrEmpty(User.Name) && !string.IsNullOrEmpty(User.WalletAddress) && !string.IsNullOrEmpty(User.WalletChain);
+        }
+    }
+
+    private async Task HanbleLogoutEvent() {
+        if (OnLogoutEvent.HasDelegate)
+        {
+            await OnLogoutEvent.InvokeAsync();
+        }
+    }
+
+    private async Task HandleRemoveUserDataEvent()
+    {
+        if (OnRemoveUserDataEvent.HasDelegate)
+        {
+            await OnRemoveUserDataEvent.InvokeAsync();
+        }
+    }
+}

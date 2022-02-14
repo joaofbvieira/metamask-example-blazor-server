@@ -1,0 +1,32 @@
+﻿@page "/"
+@inject NotificationService _notificationService
+
+<NavBar User="User" OnLogoutEvent="HandleNavbarLogout" OnRemoveUserDataEvent="HandleNavbarRemoveUserData" />
+
+<div class="container">
+	<div class="row d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+        <div>
+          <div class="card-body">
+
+            <h3 class="mb-5 text-center">Welcome to Crypto Digital Bank</h3>
+
+            @if (!IsConnected || !HasMetaMask)
+            {
+                <MetamaskConnectButton OnClickEvent="HandleMetamaskButtonClick" IsConnected="IsConnected" HasMetaMask="HasMetaMask" />
+            }
+
+            @if (IsConnected && !HasUserData)
+            {
+                <FillUserData OnSubmitEvent="HandleFillUserDataSubmit" />
+            }
+
+            @if (IsConnected && HasUserData)
+            {
+                <WelcomeUser User="User" />
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+</div>

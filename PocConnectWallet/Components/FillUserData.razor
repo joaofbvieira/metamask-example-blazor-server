@@ -1,0 +1,61 @@
+﻿@using PocConnectWallet.Models
+@inject NotificationService _notificationService
+
+<div>
+    <div class="form-outline mb-4">
+        <input type="text" id="fullname" class="form-control form-control-lg" placeholder="Full name" @bind="Name" />
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="text" id="document" class="form-control form-control-lg" placeholder="ID / Passport" @bind="Document" />
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="tel" id="phonenumber" class="form-control form-control-lg" placeholder="Phone number" @bind="PhoneNumber" />
+    </div>
+
+    <div class="form-outline mb-4">
+        <input type="email" id="email" class="form-control form-control-lg" placeholder="Email" @bind="Email" />
+    </div>
+
+    <div class="form-check mb-4 text-left">
+        <input class="form-check-input" type="checkbox" value="" id="acceptedterms" @bind="AcceptedTerms">
+        <label class="form-check-label" for="acceptedterms">
+        I read and accept the terms
+        </label>
+    </div>
+
+    <button class="btn btn-primary btn-lg w-100" type="submit" @onclick="HanbleSubmitButton">Let's go!</button>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback<UserData> OnSubmitEvent { get; set; }
+
+    private string? Name;
+    private string? Document;
+    private string? Email;
+    private string? PhoneNumber;
+    private bool AcceptedTerms;
+
+    private async Task HanbleSubmitButton() {
+        if (!AcceptedTerms)
+        {
+            _notificationService.Notify("Please read and accept the terms.");
+            return;
+        }
+
+        var userData = new UserData()
+        {
+            Name = Name,
+            DocumentNumber = Document,
+            Email = Email,
+            PhoneNumber = PhoneNumber
+        };
+
+        if (OnSubmitEvent.HasDelegate)
+        {
+            await OnSubmitEvent.InvokeAsync(userData);
+        }
+    }
+}

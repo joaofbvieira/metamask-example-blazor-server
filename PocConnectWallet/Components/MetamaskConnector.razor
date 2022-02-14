@@ -1,0 +1,47 @@
+﻿<h1>Connect to MetaMask</h1>
+
+@if (!HasMetaMask)
+{
+    <p>No MetaMask detected. Please install <a href="https://metamask.io" target="_blank">MetaMask</a>.</p>
+}
+else if (string.IsNullOrEmpty(SelectedAddress))
+{
+    <button class="btn btn-primary" @onclick="ConnectMetaMask">Initialize connection with MetaMask</button>
+    <br />
+    <br />
+}
+else
+{
+    <button class="btn btn-primary" @onclick="GetSelectedAddress">Get Selected Address</button>
+    <br />
+    <p>@SelectedAddress</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="GetSelectedNetwork">Get Selected Chain</button>
+    <br />
+    <p>@SelectedChain</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="GetTransactionCount">Get Transaction Count</button>
+    <br />
+    <p>@TransactionCount</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="@(() => SignData("label", "value"))">Sign Data</button>
+    <br />
+    <p>@SignedData</p>
+    <br />
+
+    <button class="btn btn-primary" @onclick="@(() => SignDataV4())">Sign Data V4</button>
+    <br />
+    <p>@SignedDataV4</p>
+    <br />
+
+
+
+    <button class="btn btn-primary" @onclick="GenericRpc">Generic RPC call examle</button>
+    <button class="btn btn-primary" @onclick="GetBalance">Get Balance examle</button>
+    <br />
+    <br />
+    <p>@RpcResult</p>
+}
