@@ -7,13 +7,23 @@
 	<div class="row d-flex justify-content-center align-items-center">
       <div class="col-12 col-md-9 col-lg-7 col-xl-6">
         <div>
-          <div class="card-body">
+          <div class="card-body bg-white shadow mt-3">
 
             <h3 class="mb-5 text-center">Welcome to Crypto Digital Bank</h3>
 
             @if (!IsConnected || !HasMetaMask)
             {
-                <MetamaskConnectButton OnClickEvent="HandleMetamaskButtonClick" IsConnected="IsConnected" HasMetaMask="HasMetaMask" />
+                <LoginWeb1FormFake />
+
+                <LoginWeb2FormFake />
+
+                <div class="mt-5">
+                    <div class="w-100 text-center divForm">
+                        <span class="divFormTitle">Use Web3</span>
+                    </div>
+                    
+                    <MetamaskConnectButton OnClickEvent="HandleMetamaskButtonClick" IsConnected="IsConnected" HasMetaMask="HasMetaMask" />
+                </div>
             }
 
             @if (IsConnected && !HasUserData)
